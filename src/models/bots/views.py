@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from src.models.bots.bot import Bot
 import src.errors as Error
 
-bot_blueprint = Blueprint('bots', __name__)
+bot_blueprint = Blueprint('bot', __name__)
 
 @bot_blueprint.route('/instapaper', methods=['POST'])
 def get_instapaper_information():
