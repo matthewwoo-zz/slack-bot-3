@@ -25,9 +25,9 @@ class Bot(object):
     #     print "{}, {}".format(self.token, self.username)
 
     def post_message(self):
-        sc = SlackClient(self.token)
+        sc = SlackClient(self.bot_token)
         sc.api_call(
-            "chat.postMessage", channel=self.channel_id, text="Hello <{}> from Python!".format(self.reply_user_id),
+            "chat.postMessage", channel=self.channel_id, text="Hello <@{}|{}> from Python!".format(self.reply_user_id, self.reply_user_name),
             username=self.username, as_user="false", icon_emoji=':robot_face:'
         )
 

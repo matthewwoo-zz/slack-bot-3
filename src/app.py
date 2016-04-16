@@ -1,4 +1,6 @@
 from flask import Flask, request
+
+from src.errors import Error
 from src.models.bots.bot import Bot
 
 app = Flask(__name__)
@@ -8,10 +10,8 @@ app.secret_key = "123"
 from src.models.bots.views import bot_blueprint
 app.register_blueprint(bot_blueprint, url_prefix="/bot")
 
-
 if __name__ == '__main__':
     app.run(port=4999, debug=True)
-
 
 
 # token=4wZgtfCemPr0FCHdl9DKgObD&team_id=T1042HMJB

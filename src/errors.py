@@ -5,3 +5,6 @@ class Error(Exception):
 
 class ParameterError(Error):
     pass
+
+class MessageError(Error):
+    pass

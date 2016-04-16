@@ -7,27 +7,19 @@ bot_blueprint = Blueprint('bots', __name__)
 
 @bot_blueprint.route('/instapaper', methods=['POST'])
 def get_instapaper_information():
-    try:
-        channel = request.form['channel_id']
-        user_id = request.form['user_id']
-        user = request.form['user']
-
-        print channel
-        print user_id
-        print user
-
-    except:
-        raise Error.ParameterError("Parameters are not correct")
-
-    try:
-        print request.get_data()
-        Bot(channel_id=channel, reply_user_id=user_id, reply_user_name=user).post_message()
-    except:
-        pass
-
-    print request.get_data()
-
-    return ('', 200)
+    def get_instapaper_information():
+        if request.method == 'POST':
+            try:
+                channel = request.form['channel_id']
+                user_id = request.form['user_id']
+                user = request.form['user_name']
+            except:
+                raise Error.ParameterError("Parameters are not correct")
+            try:
+                Bot(channel_id=channel, reply_user_id=user_id, reply_user_name=user).post_message()
+            except:
+                raise Error.MessageError("Message is incorrect")
+        return ('', 200)
 
 
 # @bot_blueprint.route('/instapaper', methods=['POST'])
