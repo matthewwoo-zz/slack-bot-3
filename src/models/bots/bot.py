@@ -3,8 +3,12 @@ import re
 import time
 
 import datetime as datetime
+import time
+
+import requests
 from slackclient import SlackClient
 import src.common.constants as BotConstants
+from src.models.articles.article import Article
 
 
 class Bot(object):
@@ -27,15 +31,33 @@ class Bot(object):
     def post_message(self):
         sc = SlackClient(self.bot_token)
         sc.api_call(
-            "chat.postMessage", channel=self.channel_id, text="Hello <@{}|{}> from Python!".format(self.reply_user_id, self.reply_user_name),
+            "chat.postMessage", channel=self.channel_id, text="Hello <@{}|{}> grabbing your instapaper links :newspaper:!".format(self.reply_user_id, self.reply_user_name),
             username=self.username, as_user="false", icon_emoji=':robot_face:'
         )
 
-    def get_mesages(self, start_time=None):
-        self.start_time = datetime.time() - datetime.timedelta(days=1) if start_time is None else start_time
-        sc = SlackClient(self.token)
-        x = sc.api_call("channels.history", channel=BotConstants.CHANNEL, oldest = start_time)
-        print x
+    def get_messages(self, channel, start_time=None):
+        sc = SlackClient(self.bot_token)
+        start_time = time.time()- 90061 if start_time is None else start_time
+        json_data = sc.api_call("channels.history", channel=channel, oldest = start_time)
+        message_dump =json.dumps(json_data)
+        message_dict = json.loads(message_dump)
+        for test in message_dict['messages']:
+            print 'title_link' in test
+
+    def get_last_messages(self, channel):
+        sc = SlackClient(self.bot_token)
+        json_data = sc.api_call("channels.history", channel=channel, count=10)
+        message_dump = json.dumps(json_data)
+        message_dict = json.loads(message_dump)
+        for test in message_dict['messages']:
+            if 'attachments' in test:
+                x = test['attachments'][0]['from_url']
+                Article().save_to_instapaper(url=x)
+                print x
+
+
+    def get_links(self):
+        pass
 
     def json(self):
         return

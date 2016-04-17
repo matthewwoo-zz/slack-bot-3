@@ -10,7 +10,7 @@ app.secret_key = "123"
 # from src.models.bots.views import bot_blueprint
 # app.register_blueprint(bot_blueprint, url_prefix="/bot")
 @app.route("/bot_call", methods=['POST'])
-def get_instapaper_information():
+def get_channel_info():
     if request.method == 'POST':
         try:
             channel = request.form['channel_id']
@@ -22,7 +22,11 @@ def get_instapaper_information():
             Bot(channel_id=channel, reply_user_id=user_id, reply_user_name=user).post_message()
         except:
             raise Error.MessageError("Message is incorrect")
-    return ('', 200)
+        return (get_messages(channel), 200)
+
+def get_messages(channel):
+    Bot().get_last_messages(channel)
+
 
 if __name__ == '__main__':
     app.run(port=4999, debug=True)

@@ -22,17 +22,3 @@ def get_instapaper_information():
         return ('', 200)
 
 
-# @bot_blueprint.route('/instapaper', methods=['POST'])
-# def get_instapaper_information():
-#     if request.method == 'POST':
-#         print request.get_data()
-#         channel = request.form['channel_id']
-#         token = request.form['token']
-#         channel = request.form['channel_id']
-#         user_id = request.form['user_id']
-#         user = request.form['user']
-#
-#
-#         # Bot(channel_id=channel, reply_user_id=user_id, reply_user_name=user).post_message()
-#     return ('', 200)
-
