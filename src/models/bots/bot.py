@@ -47,7 +47,7 @@ class Bot(object):
             self.get_messages(channel=self.channel_id, start_time=start_time)
         else:
             self.fail_message()
-    return 200
+        return 200
 
     def success_message(self, num_articles):
         sc = SlackClient(self.bot_token)
