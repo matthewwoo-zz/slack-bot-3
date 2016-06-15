@@ -32,15 +32,16 @@ class Bot(object):
     def query_wit(self, text=None):
         if text == '':
             self.get_messages()
-        elif 'article' or 'articles' in text:
+            return 200
+        elif 'article' in text or 'articles' in text:
             self.get_messages()
+            return 200
         else:
             text = text.encode('utf-8')
         encode_text = urllib2.quote(text)
         data_url = 'https://api.wit.ai/converse?v=20160330&session_id={}&q={}'.format(self.session_id, encode_text)
         data = requests.post(data_url, headers=BotConstants.WIT_HEADERS)
         json_data = json.loads(data.text)
-        print json_data
         if 'datetime' in json_data['entities']:
             start_time = json_data['entities']['datetime'][0]['value']
             start_time = calendar.timegm(datetime.strptime(start_time[:23], '%Y-%m-%dT%H:%M:%S.%f').timetuple())
@@ -90,27 +91,3 @@ class Bot(object):
 
     def json(self):
         return
-
-
-
-    # def read(self):
-    #     sc = SlackClient(self.token)
-    #     if sc.rtm_connect():
-    #         while True:
-    #             new_evts = sc.rtm_read()
-    #             for evt in new_evts:
-    #                 try:
-    #                     text = evt['text']
-    #                 except:
-    #                     pass
-    #                 try:
-    #                     pattern = re.compile(".{}.".format(username))
-    #                     match = pattern.search(text)
-    #                     user = match.group()
-    #                     if user == BotConstants.USERNAME2:
-    #                         Bot().post_message()
-    #                 except:
-    #                     pass
-    #             time.sleep(1)
-    #     else:
-    #         print "Connection failed"
